@@ -16,17 +16,16 @@ export class CardsListComponent {
   constructor(private cardsService:CardsService) { }
 
   ngOnInit(): void {
-    this.cardsService.getNumberOfCards(40, 1).subscribe(
-      (response:any) => this.cards = response.cards)
+    this.loadCards();
   }
 
-  loadCards() {
+  loadCards(){
     this.loading = true;
-    this.cardsService.getAll(this.page, this.pageSize).subscribe(
-      newCards => {
-        this.cards = this.cards.concat(newCards);
-        this.page++;
+    this.cardsService.getPage(this.page, this.pageSize).subscribe(
+      (response:any) => {
+        this.cards = this.cards.concat(response.cards);
         this.loading = false;
+        this.page++;
       },
       error => {
         this.loading = false;
@@ -40,7 +39,7 @@ export class CardsListComponent {
     const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
     const body = document.body, html = document.documentElement;
     const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight,  html.scrollHeight, html.offsetHeight);
-    const windowBottom = windowHeight + window.pageYOffset;
+    const windowBottom = windowHeight + window.scrollY;
 
     if (windowBottom >= docHeight - 1) {
       this.loadCards();

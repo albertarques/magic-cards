@@ -11,24 +11,21 @@ export class CardsService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(pageNumber : number, cardsNumber : number):Observable<Cards[]>{
+  getAll():Observable<Cards[]>{
+
+    const params = "?"
+    const contains = ['contains=imageUrl'];
+
+    return this.http.get<Cards[]>(`${environment.API_URL}${params}${contains}`);
+  }
+
+  getPage(pageNumber : number, cardsNumber : number):Observable<Cards[]>{
 
     const page = pageNumber;
     const pageSize = cardsNumber;
-    const contains = 'imageUrl';
+    const params = "?"
+    const contains = ['contains=imageUrl'];
 
-    return this.http.get<Cards[]>(`${environment.API_URL}${contains}`);
-  }
-
-  getNumberOfCards(numberOfCards : number, pageNumber : number):Observable<Cards[]>{
-
-    const page = pageNumber;
-    const pageSize = numberOfCards;
-    const contains = 'imageUrl';
-
-    const options = `?page=${page}&pageSize=${pageSize}&contains=${contains}`
-
-
-    return this.http.get<Cards[]>(`${environment.API_URL}${options}`);
+    return this.http.get<Cards[]>(`${environment.API_URL}${params}${contains}&page=${page}&pageSize=${pageSize}`);
   }
 }

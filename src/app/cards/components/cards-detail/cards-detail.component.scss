@@ -30,8 +30,9 @@
 
     .card-back {
       // padding: 0.5rem;
+      border: 5px solid #000;
       transform: rotateY(180deg);
-      background-color: #fff;
+      background-color: #dedfc4;
 
       h2 {
         font-size: 1.2rem;
